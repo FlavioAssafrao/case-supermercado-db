@@ -1,0 +1,49 @@
+CREATE DATABASE db_supermercado;
+USE db_supermercado;
+
+CREATE TABLE tbl_clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome_cliente VARCHAR(100),
+    cpf VARCHAR(14),
+    telefone VARCHAR(20),
+    email VARCHAR(100),
+    data_nascimento DATE
+);
+
+CREATE TABLE tbl_colaboradores (
+    id_colaborador INT AUTO_INCREMENT PRIMARY KEY,
+    nome_colaborador VARCHAR(100),
+    cpf VARCHAR(14),
+    cargo VARCHAR(50),
+    email VARCHAR(100),
+    senha VARCHAR(100)
+);
+
+CREATE TABLE tbl_produtos (
+    id_produto INT AUTO_INCREMENT PRIMARY KEY,
+    nome_produto VARCHAR(100),
+    cod_barras VARCHAR(50),
+    categoria VARCHAR(50),
+    preco_venda DECIMAL(10,2),
+    estoque INT
+);
+
+CREATE TABLE tbl_vendas (
+    id_venda INT AUTO_INCREMENT PRIMARY KEY,
+    data_venda DATE,
+    valor_total DECIMAL(10,2),
+    fk_cliente INT,
+    fk_colaborador INT,
+    FOREIGN KEY (fk_cliente) REFERENCES tbl_clientes(id_cliente),
+    FOREIGN KEY (fk_colaborador) REFERENCES tbl_colaboradores(id_colaborador)
+);
+
+CREATE TABLE tbl_itens_venda (
+    id_item INT AUTO_INCREMENT PRIMARY KEY,
+    fk_venda INT,
+    fk_produto INT,
+    quantidade INT,
+    preco_unitario DECIMAL(10,2),
+    FOREIGN KEY (fk_venda) REFERENCES tbl_vendas(id_venda),
+    FOREIGN KEY (fk_produto) REFERENCES tbl_produtos(id_produto)
+);
